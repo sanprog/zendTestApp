@@ -28,6 +28,7 @@ class CompanyController extends AbstractActionController
              ));
          }
          $typeList = $this->getTypeList();
+         //set type by index
          $company = $this->getCompanyList()->getCompany($id);
          $company->type = $typeList[$company->type];
 
@@ -69,8 +70,7 @@ class CompanyController extends AbstractActionController
              ));
          }
 
-         // Get the Company with the specified id.  An exception is thrown
-         // if it cannot be found, in which case go to the index page.
+        
          try {
              $company = $this->getCompanyList()->getCompany($id);
          }
@@ -151,7 +151,6 @@ class CompanyController extends AbstractActionController
                 $selectData[$res['id']] = $res['name'];
              }
              return $selectData;
-             //var_dump($selectData);
 
      }
 

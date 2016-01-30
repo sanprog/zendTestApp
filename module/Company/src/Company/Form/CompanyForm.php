@@ -33,6 +33,7 @@ namespace Company\Form;
              'name' => 'type',
              'options' => array(
                      'label' => 'Type',
+                     //get list of type from DB
                      'value_options' => $this->getOptionsForSelect(),
              )
          ));
