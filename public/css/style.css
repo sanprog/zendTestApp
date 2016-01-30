@@ -35,3 +35,8 @@ div.container a.brand {
     margin-left: 0;
     padding: 8px 20px 12px 40px;
 }
+div.container label {
+  display: block;
+  width: 200px;
+  margin-top: 20px;
+}

@@ -27,9 +27,12 @@ class CompanyController extends AbstractActionController
                  'action' => 'index'
              ));
          }
+         $typeList = $this->getTypeList();
+         $company = $this->getCompanyList()->getCompany($id);
+         $company->type = $typeList[$company->type];
 
           return new ViewModel(array(
-             'company' => $this->getCompanyList()->getCompany($id),
+             'company' => $company,
          ));
      }
 
