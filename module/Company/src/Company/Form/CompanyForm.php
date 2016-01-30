@@ -2,14 +2,18 @@
 namespace Company\Form;
 
  use Zend\Form\Form;
+ use Zend\Db\Adapter\AdapterInterface;
+ use Zend\Db\Adapter\Adapter;
 
  class CompanyForm extends Form
  {
-     public function __construct($name = null)
+     protected $adapter;
+
+
+     public function __construct(AdapterInterface $dbAdapter)
      {
 
-//var_dump(Company\Model\ActivityTable::getActivityList());
-
+        $this->adapter =$dbAdapter;
          // we want to ignore the name passed
          parent::__construct('company');
 
@@ -29,12 +33,7 @@ namespace Company\Form;
              'name' => 'type',
              'options' => array(
                      'label' => 'Type',
-                     'value_options' => array(
-                             '0' => 'French',
-                             '1' => 'English',
-                             '2' => 'Japanese',
-                             '3' => 'Chinese',
-                     ),
+                     'value_options' => $this->getOptionsForSelect(),
              )
          ));
          $this->add(array(
@@ -59,5 +58,19 @@ namespace Company\Form;
                  'id' => 'submitbutton',
              ),
          ));
+     }
+     public function getOptionsForSelect()
+     {
+     $dbAdapter = $this->adapter;
+     $sql = 'SELECT id,name FROM type';
+     $statement = $dbAdapter->query($sql);
+     $result = $statement->execute();
+
+     $selectData = array();
+
+     foreach ($result as $res) {
+        $selectData[$res['id']] = $res['name'];
+     }
+     return $selectData;
      }
  }

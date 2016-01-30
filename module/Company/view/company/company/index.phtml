@@ -21,9 +21,10 @@
      <td>
         <a href="<?php echo $this->url('company', array('action'=>'view', 'id' => $company->id));?>">
             <?php echo $this->escapeHtml($company->name);?>
+
         </a>
     </td>
-     <td><?php echo $this->escapeHtml($company->type);?></td>
+     <td><?php echo $this->escapeHtml($typeList[$company->type]);?></td>
      <td><?php echo $this->escapeHtml($company->activity);?></td>
      <td><?php echo $this->escapeHtml($company->contact);?></td>
      <td>

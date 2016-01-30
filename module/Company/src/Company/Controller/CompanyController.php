@@ -4,7 +4,6 @@ namespace Company\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Company\Model\Company;       
-use Company\Model\Activity;       
 use Company\Form\CompanyForm; 
 
 class CompanyController extends AbstractActionController
@@ -13,8 +12,10 @@ class CompanyController extends AbstractActionController
 
      public function indexAction()
      {
+        $typeList = $this->getTypeList();
           return new ViewModel(array(
              'companys' => $this->getCompanyList()->fetchAll(),
+             'typeList' => $typeList,
          ));
      }
 
@@ -34,7 +35,8 @@ class CompanyController extends AbstractActionController
 
      public function addAction()
      {
-         $form = new CompanyForm();
+         $dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+         $form  = new CompanyForm($dbAdapter);
          $form->get('submit')->setValue('Add');
 
          $request = $this->getRequest();
@@ -56,6 +58,7 @@ class CompanyController extends AbstractActionController
 
      public function editAction()
      {
+
          $id = (int) $this->params()->fromRoute('id', 0);
          if (!$id) {
              return $this->redirect()->toRoute('company', array(
@@ -74,7 +77,8 @@ class CompanyController extends AbstractActionController
              ));
          }
 
-         $form  = new CompanyForm();
+         $dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+         $form  = new CompanyForm($dbAdapter);
          $form->bind($company);
          $form->get('submit')->setAttribute('value', 'Edit');
 
@@ -131,4 +135,21 @@ class CompanyController extends AbstractActionController
          }
          return $this->companyTable;
      }
+     public function getTypeList()
+     {
+             $dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+             $sql = 'SELECT id,name FROM type';
+             $statement = $dbAdapter->query($sql);
+             $result = $statement->execute();
+
+             $selectData = array();
+
+             foreach ($result as $res) {
+                $selectData[$res['id']] = $res['name'];
+             }
+             return $selectData;
+             //var_dump($selectData);
+
+     }
+
 }
