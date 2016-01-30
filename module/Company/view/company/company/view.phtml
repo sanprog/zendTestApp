@@ -1,0 +1,17 @@
+<?php
+
+ $title = 'Company "'.$company->name.'"';
+ $this->headTitle($title);
+ ?>
+ <h1><?php echo $this->escapeHtml($title); ?></h1>
+ <p>
+     <a href="<?php echo $this->url('company', array('action'=>'edit', 'id' => $company->id));?>">Edit</a>
+     <a href="<?php echo $this->url('company', array('action'=>'delete', 'id' => $company->id));?>">Delete</a>
+ </p>
+ <p><b>id: </b><?=$company->id ?></p>
+ <p><b>Name: </b><?=$company->name ?></p>
+ <p><b>Type: </b><?=$company->type ?></p>
+ <p><b>Activity: </b><?=$company->activity ?></p>
+ <p><b>Contact: </b><?=$company->contact ?></p>
+
+ </table>
